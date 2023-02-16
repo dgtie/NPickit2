@@ -516,3 +516,14 @@ void pickit_init(void) {
 unsigned test(unsigned data) {
     return P32XferFastData32(data);
 }
+
+void led(bool b) { BUSY_LED = b ? 1 : 0; }
+
+int key;
+
+void button(unsigned t) {
+    if ((!(t & 15)) && (key != (PORTB & 0x100))) {
+        key ^= 0x100;
+        if (!key) LATBINV = 0x200;
+    }
+}
